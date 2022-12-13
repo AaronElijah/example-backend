@@ -1,11 +1,11 @@
-name: Develop branch push
+name: Release client libraries
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - '*.*.*'
 
 jobs:
-  publish-dev-client-library:
+  publish-client-library:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,12 +36,10 @@ jobs:
       - name: Generate typescript client library & publish to AWS Codeartifact
         run: |
           npm i @openapitools/openapi-generator-cli json -g
-          # apt-get -f install openjdk-8-jre
-          VERSION=$(poetry version -s)
-          openapi-generator-cli generate -g typescript-axios -i swagger.json -o typescript-client --model-package models --api-package api --additional-properties=npmVersion=$VERSION,npmName=exampleClient,nullSafeAdditionalProps=true,withSeparateModelsAndApi=true,useSingleRequestParameter=true
+          # apt-get install openjdk-8-jre
+          openapi-generator-cli generate -g typescript-axios -i swagger.json -o typescript-client --model-package models --api-package api --additional-properties=npmVersion=${{github.ref_name}},npmName=exampleClient,nullSafeAdditionalProps=true,withSeparateModelsAndApi=true,useSingleRequestParameter=true
           cd typescript-client
           aws codeartifact login --tool npm --domain octopuswealth --repository client
-          npm version prerelease --preid dev.$(date +"%Y%m%d%H%M%S") 
           json -I -f package.json -e "this.files=[\"/dist/**\"]"
           npm install --registry https://registry.npmjs.org
           npm run build

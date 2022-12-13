@@ -1,15 +1,16 @@
-name: Release client libraries
+name: Bump version
 on:
   push:
-    tags:
-      - "*.*.*"
+    branches:
+      - main
 
 jobs:
   publish-client-library:
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.0.0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -18,15 +19,30 @@ jobs:
           aws-secret-access-key: ${{ secrets.CI_AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
 
+      - name: Setup python
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
       - name: Generate typescript client library & publish to AWS Codeartifact
         run: |
           npm i @openapitools/openapi-generator-cli json -g
           # apt-get install openjdk-8-jre
+          VERSION=$(poetry version -s)
           openapi-generator-cli generate -g typescript-axios -i swagger.json -o typescript-client --model-package models --api-package api --additional-properties=npmVersion=$VERSION,npmName=exampleClient,nullSafeAdditionalProps=true,withSeparateModelsAndApi=true,useSingleRequestParameter=true
-          cd octopuswealth-doc-service-client-typescript-axios
+          cd typescript-client
           aws codeartifact login --tool npm --domain octopuswealth --repository client
-          npm version ${{github.ref_name}}
           json -I -f package.json -e "this.files=[\"/dist/**\"]"
           npm install --registry https://registry.npmjs.org
           npm run build
-          # npm publish
+          npm publish

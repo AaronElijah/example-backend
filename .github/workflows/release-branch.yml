@@ -1,12 +1,11 @@
-name: Bump version
+name: Verify Release ID
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
   bump-version:
-    if: "!startsWith(github.event.head_commit.message, 'bump:')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,6 +14,10 @@ jobs:
           fetch-depth: 0
           token: "${{ secrets.GITHUB_TOKEN }}"
 
+      # potential bit of confusion here because this creates a tag that is pushed to origin repo
+      # however this will not trigger a release flow for tags
+      # hence the actual build of the client library is in main branch
+      # so the tag is created, then the release pr is merged, then the client library is published.
       - id: cz
         name: Create bump and changelog
         uses: commitizen-tools/commitizen-action@master

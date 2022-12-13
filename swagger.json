@@ -1,0 +1,961 @@
+{
+  "components": {
+    "schemas": {
+      "AssetResponse": {
+        "properties": {
+          "AddressPostalCode": {
+            "nullable": true,
+            "type": "string"
+          },
+          "ExternalId": {
+            "type": "string"
+          },
+          "Household": {
+            "type": "string"
+          },
+          "LastValuationDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "PurchaseDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "PurchaseValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "Roles": {
+            "items": {
+              "$ref": "#/components/schemas/AssetRoleResponse"
+            },
+            "type": "array"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Status": {
+            "enum": [
+              "Sold",
+              "Owned",
+              "Surrendered"
+            ],
+            "type": "string"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/AssetTypeResponse"
+          },
+          "Value": {
+            "nullable": true,
+            "type": "number"
+          }
+        },
+        "required": [
+          "ExternalId",
+          "Household",
+          "Name",
+          "Roles",
+          "Status",
+          "Type"
+        ],
+        "type": "object"
+      },
+      "AssetRoleBody": {
+        "properties": {
+          "percentageOwnership": {
+            "type": "number"
+          },
+          "personId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "percentageOwnership",
+          "personId",
+          "role"
+        ],
+        "type": "object"
+      },
+      "AssetRoleResponse": {
+        "properties": {
+          "ExternalId": {
+            "type": "string"
+          },
+          "PercentageOwnership": {
+            "type": "number"
+          },
+          "PersonId": {
+            "type": "string"
+          },
+          "Role": {
+            "type": "string"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "ExternalId",
+          "PercentageOwnership",
+          "PersonId",
+          "Role"
+        ],
+        "type": "object"
+      },
+      "AssetTypeResponse": {
+        "properties": {
+          "CanBeHeldInAPension": {
+            "nullable": true,
+            "type": "string"
+          },
+          "CanBeHeldInTrust": {
+            "nullable": true,
+            "type": "string"
+          },
+          "HasAddress": {
+            "nullable": true,
+            "type": "string"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CreateAssetBody": {
+        "properties": {
+          "addressPostalCode": {
+            "nullable": true,
+            "type": "string"
+          },
+          "assetTypeId": {
+            "type": "string"
+          },
+          "currentValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "dateOfValuation": {
+            "format": "date",
+            "nullable": true,
+            "type": "string"
+          },
+          "householdId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "purchaseDate": {
+            "format": "date",
+            "nullable": true,
+            "type": "string"
+          },
+          "purchaseValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/AssetRoleBody"
+            },
+            "type": "array"
+          },
+          "status": {
+            "enum": [
+              "Sold",
+              "Owned",
+              "Surrendered"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetTypeId",
+          "householdId",
+          "name",
+          "roles",
+          "status"
+        ],
+        "type": "object"
+      },
+      "CreateAssetResponse": {
+        "properties": {
+          "AddressPostalCode": {
+            "nullable": true,
+            "type": "string"
+          },
+          "AssetTypeId": {
+            "type": "string"
+          },
+          "ExternalId": {
+            "type": "string"
+          },
+          "Household": {
+            "type": "string"
+          },
+          "LastValuationDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "PurchaseDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "PurchaseValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "Roles": {
+            "items": {
+              "$ref": "#/components/schemas/AssetRoleResponse"
+            },
+            "type": "array"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Status": {
+            "enum": [
+              "Sold",
+              "Owned",
+              "Surrendered"
+            ],
+            "type": "string"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/AssetTypeResponse"
+          },
+          "Value": {
+            "nullable": true,
+            "type": "number"
+          }
+        },
+        "required": [
+          "AssetTypeId",
+          "ExternalId",
+          "Household",
+          "Name",
+          "Roles",
+          "Status",
+          "Type"
+        ],
+        "type": "object"
+      },
+      "FinancialProductResponse": {
+        "properties": {
+          "Agency": {
+            "nullable": true,
+            "type": "string"
+          },
+          "DateClosed": {
+            "nullable": true,
+            "type": "string"
+          },
+          "DateOpened": {
+            "nullable": true,
+            "type": "string"
+          },
+          "ExternalId": {
+            "type": "string"
+          },
+          "Household": {
+            "type": "string"
+          },
+          "LastValuationDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Notes": {
+            "nullable": true,
+            "type": "string"
+          },
+          "PolicyNumber": {
+            "nullable": true,
+            "type": "string"
+          },
+          "ProductType": {
+            "nullable": true,
+            "type": "string"
+          },
+          "ProviderId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Roles": {
+            "items": {
+              "$ref": "#/components/schemas/FinancialProductRoleResponse"
+            },
+            "type": "array"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Status": {
+            "enum": [
+              "Closed",
+              "Open",
+              "Draft"
+            ],
+            "type": "string"
+          },
+          "Valuations": {
+            "items": {
+              "$ref": "#/components/schemas/ValuationResponse"
+            },
+            "type": "array"
+          },
+          "Value": {
+            "nullable": true,
+            "type": "number"
+          }
+        },
+        "required": [
+          "ExternalId",
+          "Household",
+          "ProductType",
+          "Roles",
+          "Status",
+          "Value"
+        ],
+        "type": "object"
+      },
+      "FinancialProductRoleResponse": {
+        "properties": {
+          "ExternalId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "PersonId": {
+            "type": "string"
+          },
+          "Role": {
+            "type": "string"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "PersonId",
+          "Role"
+        ],
+        "type": "object"
+      },
+      "FinancialProductRoleRoleBody": {
+        "properties": {
+          "personId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "personId",
+          "role"
+        ],
+        "type": "object"
+      },
+      "FinancialProductUpdate": {
+        "properties": {
+          "dateClosed": {
+            "format": "date",
+            "nullable": true,
+            "type": "string"
+          },
+          "dateOpened": {
+            "format": "date",
+            "nullable": true,
+            "type": "string"
+          },
+          "notes": {
+            "nullable": true,
+            "type": "string"
+          },
+          "policyNumber": {
+            "nullable": true,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "Closed",
+              "Open",
+              "Draft"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "PreExistingFinancialProductBody": {
+        "properties": {
+          "currentValue": {
+            "type": "number"
+          },
+          "dateOfValuation": {
+            "format": "date",
+            "type": "string"
+          },
+          "householdId": {
+            "type": "string"
+          },
+          "policyNumber": {
+            "type": "string"
+          },
+          "productType": {
+            "type": "string"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/FinancialProductRoleRoleBody"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "currentValue",
+          "householdId",
+          "productType",
+          "providerId",
+          "roles"
+        ],
+        "type": "object"
+      },
+      "ReadAssetResponse": {
+        "properties": {
+          "AddressPostalCode": {
+            "nullable": true,
+            "type": "string"
+          },
+          "ExternalId": {
+            "type": "string"
+          },
+          "Household": {
+            "type": "string"
+          },
+          "LastValuationDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "PurchaseDate": {
+            "nullable": true,
+            "type": "string"
+          },
+          "PurchaseValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "Roles": {
+            "items": {
+              "$ref": "#/components/schemas/AssetRoleResponse"
+            },
+            "type": "array"
+          },
+          "SfId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Status": {
+            "enum": [
+              "Sold",
+              "Owned",
+              "Surrendered"
+            ],
+            "type": "string"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/SFAssetType"
+          },
+          "Value": {
+            "nullable": true,
+            "type": "number"
+          }
+        },
+        "required": [
+          "ExternalId",
+          "Household",
+          "Name",
+          "Roles",
+          "Status",
+          "Type"
+        ],
+        "type": "object"
+      },
+      "RecommendationIdBody": {
+        "properties": {
+          "recommendationId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "recommendationId"
+        ],
+        "type": "object"
+      },
+      "SFAssetType": {
+        "properties": {
+          "CanBeHeldInAPension": {
+            "type": "string"
+          },
+          "CanBeHeldInTrust": {
+            "type": "string"
+          },
+          "HasAddress": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "SfId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "CanBeHeldInAPension",
+          "CanBeHeldInTrust",
+          "HasAddress",
+          "Name",
+          "SfId"
+        ],
+        "type": "object"
+      },
+      "UpdateAssetBody": {
+        "properties": {
+          "currentValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "dateOfValuation": {
+            "format": "date",
+            "nullable": true,
+            "type": "string"
+          },
+          "purchaseDate": {
+            "format": "date",
+            "nullable": true,
+            "type": "string"
+          },
+          "purchaseValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "status": {
+            "enum": [
+              "Sold",
+              "Owned",
+              "Surrendered"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ValuationBody": {
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "valuationDate": {
+            "format": "date",
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "type": "object"
+      },
+      "ValuationResponse": {
+        "properties": {
+          "CreatedOn": {
+            "type": "string"
+          },
+          "Valuation": {
+            "type": "number"
+          },
+          "ValuationDate": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "CreatedOn",
+          "Valuation",
+          "ValuationDate"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "openapi": "3.0.2",
+  "paths": {
+    "/v1/assets/": {
+      "post": {
+        "description": "Create a pre-existing asset from set asset types",
+        "operationId": "createAssets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssetBody"
+              }
+            }
+          },
+          "description": "No description",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAssetResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Create an asset",
+        "tags": [
+          "Assets"
+        ]
+      }
+    },
+    "/v1/assets/{asset_id}": {
+      "patch": {
+        "description": "Update an asset",
+        "operationId": "updateAsset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "asset_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAssetBody"
+              }
+            }
+          },
+          "description": "No description",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Update an asset",
+        "tags": [
+          "Assets"
+        ]
+      }
+    },
+    "/v1/assets/{sfid}/valuations": {
+      "post": {
+        "description": "No description",
+        "operationId": "insertAssetValuation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sfid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValuationBody"
+              }
+            }
+          },
+          "description": "No description",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValuationResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Insert an asset valuation",
+        "tags": [
+          "Valuations"
+        ]
+      }
+    },
+    "/v1/financialProducts/": {
+      "post": {
+        "description": "Create new business or pre-existing financial products",
+        "operationId": "createFinancialProducts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PreExistingFinancialProductBody"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RecommendationIdBody"
+                  }
+                ]
+              }
+            }
+          },
+          "description": "No description",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialProductResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Create a financial product",
+        "tags": [
+          "Financial Products"
+        ]
+      }
+    },
+    "/v1/financialProducts/{financial_product_id}": {
+      "patch": {
+        "description": "No description",
+        "operationId": "updateFinancialProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "financial_product_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinancialProductUpdate"
+              }
+            }
+          },
+          "description": "No description",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialProductResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Update or delete a financial product",
+        "tags": [
+          "Financial Products"
+        ]
+      }
+    },
+    "/v1/financialProducts/{sfid}/valuations": {
+      "post": {
+        "description": "No description",
+        "operationId": "insertFinancialProductValuation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sfid",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValuationBody"
+              }
+            }
+          },
+          "description": "No description",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValuationResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Insert a financial product valuation",
+        "tags": [
+          "Valuations"
+        ]
+      }
+    },
+    "/v1/household/{householdId}/assets": {
+      "get": {
+        "description": "Read assets by household with optional filter type by status",
+        "operationId": "getAssetsByHousehold",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "Sold",
+                "Owned",
+                "Surrendered"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "householdId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ReadAssetResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Read assets by household",
+        "tags": [
+          "Assets"
+        ]
+      }
+    },
+    "/v1/household/{householdId}/financialProducts": {
+      "get": {
+        "description": "Read new or pre-existing financial products by household with optional filter type by status",
+        "operationId": "getFinancialProductsByHousehold",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "Open",
+                "Draft"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "householdId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialProductResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Read financial products by household",
+        "tags": [
+          "Financial Products"
+        ]
+      }
+    }
+  }
+}

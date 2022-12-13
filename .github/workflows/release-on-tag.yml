@@ -1,0 +1,32 @@
+name: Release client libraries
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  publish-client-library:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.CI_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.CI_AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Generate typescript client library & publish to AWS Codeartifact
+        run: |
+          npm i @openapitools/openapi-generator-cli json -g
+          # apt-get install openjdk-8-jre
+          openapi-generator-cli generate -g typescript-axios -i swagger.json -o typescript-client --model-package models --api-package api --additional-properties=npmVersion=$VERSION,npmName=exampleClient,nullSafeAdditionalProps=true,withSeparateModelsAndApi=true,useSingleRequestParameter=true
+          cd octopuswealth-doc-service-client-typescript-axios
+          aws codeartifact login --tool npm --domain octopuswealth --repository client
+          npm version ${{github.ref_name}}
+          json -I -f package.json -e "this.files=[\"/dist/**\"]"
+          npm install --registry https://registry.npmjs.org
+          npm run build
+          # npm publish

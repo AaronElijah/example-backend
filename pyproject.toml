@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "service"
+version = "1.0.0"
+description = "Example Service"
+authors = ["Test"]
+packages = [
+    { include = "src" },
+]
+
+[[tool.poetry.source]]
+name = 'test-pypi'
+url = 'https://test.pypi.org/simple/'
+secondary = true
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+commitizen = "2.37.0"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.0.0"
+tag_format = "$version"
+version_files = [
+    "pyproject.toml:version"
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

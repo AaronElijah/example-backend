@@ -1,28 +1,70 @@
 name: Verify Release ID
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - "release/*"
 
 jobs:
   bump-version:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.9' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2.0.0
         with:
           fetch-depth: 0
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: "${{ secrets.PAT }}"
+
+      - name: Get tags
+        run: |
+          git fetch --tags
+          echo exit code $?
+          git tag --list
+
+      - name: Configure git
+        run: |
+          git config --local user.name 'Aaron Elijah'
+          git config --local user.email 'AaronElijah@users.noreply.github.com'
+          git config --local pull.rebase true
+
+      - name: Setup python
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----
+      #----------------------------------------------
+      #      - name: Install Poetry
+      #        uses: snok/install-poetry@v1
+      #        with:
+      #          virtualenvs-create: true
+      #          virtualenvs-in-project: true
+
+      - name: Bump version
+        run: |
+          pip install commitizen
+          cz bump --changelog --check-consistency
+          INPUT_BRANCH=${{ github.ref_name }}
+          GITHUB_ACTOR=${{ github.actor }}
+          INPUT_GITHUB_TOKEN=${{ secrets.PAT }}
+          INPUT_REPOSITORY=${{ github.repository }}
+          REMOTE_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_REPOSITORY}.git"
+          git push "$REMOTE_REPO" "HEAD:${INPUT_BRANCH}" --tags
+
 
       # potential bit of confusion here because this creates a tag that is pushed to origin repo
       # however this will not trigger a release flow for tags
       # hence the actual build of the client library is in main branch
       # so the tag is created, then the release pr is merged, then the client library is published.
-      - id: cz
-        name: Create bump and changelog
-        uses: commitizen-tools/commitizen-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Print Version
-        run: echo "Bumped to version ${{ steps.cz.outputs.version }}"
+#      - id: cz
+#        name: Create bump and changelog
+#        uses: commitizen-tools/commitizen-action@master
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Print Version
+#        run: echo "Bumped to version ${{ steps.cz.outputs.version }}"

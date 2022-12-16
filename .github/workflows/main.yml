@@ -10,6 +10,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.0.0
+        with:
+          fetch-depth: 0
+          token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -32,6 +35,23 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
+
+      - name: Configure git
+        run: |
+          git config --local user.name 'Aaron Elijah'
+          git config --local user.email 'AaronElijah@users.noreply.github.com'
+          git config --local pull.rebase true
+
+      - name: Create and push tag
+        run: |
+          VERSION=$(poetry version -s)
+          git tag $VERSION
+          INPUT_BRANCH=${{ github.ref_name }}
+          GITHUB_ACTOR=${{ github.actor }}
+          INPUT_GITHUB_TOKEN=${{ secrets.PAT }}
+          INPUT_REPOSITORY=${{ github.repository }}
+          REMOTE_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_REPOSITORY}.git"
+          git push "$REMOTE_REPO" "HEAD:${INPUT_BRANCH}" --tags
 
       - name: Generate typescript client library & publish to AWS Codeartifact
         run: |

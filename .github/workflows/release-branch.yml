@@ -48,7 +48,7 @@ jobs:
       - name: Bump version
         run: |
           pip install commitizen
-          cz bump --changelog --check-consistency
+          cz bump --changelog --check-consistency --annotated-tag
           INPUT_BRANCH=${{ github.ref_name }}
           GITHUB_ACTOR=${{ github.actor }}
           INPUT_GITHUB_TOKEN=${{ secrets.PAT }}

@@ -1,3 +1,9 @@
+## 1.2.2 (2022-12-16)
+
+### Fix
+
+- use annotated tags instead of simple tags
+
 ## 1.2.1 (2022-12-16)
 
 ### Fix

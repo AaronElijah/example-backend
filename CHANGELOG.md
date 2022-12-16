@@ -1,3 +1,13 @@
+## 2.0.0 (2022-12-16)
+
+### BREAKING CHANGE
+
+- the workflow has completely changed
+
+### Feat
+
+- updated workflow
+
 ## 1.2.2 (2022-12-16)
 
 ### Fix

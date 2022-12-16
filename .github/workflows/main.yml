@@ -6,7 +6,6 @@ on:
 
 jobs:
   publish-client-library:
-    if: "!startsWith(github.event.head_commit.message, 'bump:')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

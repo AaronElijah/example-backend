@@ -21,8 +21,6 @@ jobs:
       - name: Get tags
         run: |
           git fetch --tags
-          echo exit code $?
-          git tag --list
 
       - name: Configure git
         run: |
@@ -54,7 +52,7 @@ jobs:
           INPUT_GITHUB_TOKEN=${{ secrets.PAT }}
           INPUT_REPOSITORY=${{ github.repository }}
           REMOTE_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_REPOSITORY}.git"
-          git push "$REMOTE_REPO" "HEAD:${INPUT_BRANCH}" --tags
+          git push "$REMOTE_REPO" "HEAD:${INPUT_BRANCH}"
 
 
       # potential bit of confusion here because this creates a tag that is pushed to origin repo

@@ -1,4 +1,4 @@
-name: Verify Release ID
+name: Prepare release
 on:
   push:
     branches:
@@ -35,14 +35,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       #----------------------------------------------
-      #  -----  install & configure poetry  -----
+      # this creates a tag that is NOT pushed to origin
+      # the commit SHAs change on rebase to main, making tags created on this branch
+      # point to commits that don't exist
       #----------------------------------------------
-      #      - name: Install Poetry
-      #        uses: snok/install-poetry@v1
-      #        with:
-      #          virtualenvs-create: true
-      #          virtualenvs-in-project: true
-
       - name: Bump version
         run: |
           pip install commitizen
@@ -53,17 +49,3 @@ jobs:
           INPUT_REPOSITORY=${{ github.repository }}
           REMOTE_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_REPOSITORY}.git"
           git push "$REMOTE_REPO" "HEAD:${INPUT_BRANCH}"
-
-
-      # potential bit of confusion here because this creates a tag that is pushed to origin repo
-      # however this will not trigger a release flow for tags
-      # hence the actual build of the client library is in main branch
-      # so the tag is created, then the release pr is merged, then the client library is published.
-#      - id: cz
-#        name: Create bump and changelog
-#        uses: commitizen-tools/commitizen-action@master
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Print Version
-#        run: echo "Bumped to version ${{ steps.cz.outputs.version }}"

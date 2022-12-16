@@ -1,4 +1,4 @@
-name: Bump version
+name: Production client library release
 on:
   push:
     branches:
@@ -56,7 +56,6 @@ jobs:
       - name: Generate typescript client library & publish to AWS Codeartifact
         run: |
           npm i @openapitools/openapi-generator-cli json -g
-          # apt-get install openjdk-8-jre
           VERSION=$(poetry version -s)
           openapi-generator-cli generate -g typescript-axios -i swagger.json -o typescript-client --model-package models --api-package api --additional-properties=npmVersion=$VERSION,npmName=exampleClient,nullSafeAdditionalProps=true,withSeparateModelsAndApi=true,useSingleRequestParameter=true
           cd typescript-client

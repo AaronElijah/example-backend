@@ -1,3 +1,9 @@
+## 2.1.0 (2022-12-16)
+
+### Feat
+
+- api stub file
+
 ## 2.0.0 (2022-12-16)
 
 ### BREAKING CHANGE

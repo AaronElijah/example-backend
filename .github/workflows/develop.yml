@@ -40,7 +40,7 @@ jobs:
           openapi-generator-cli generate -g typescript-axios -i swagger.json -o typescript-client --model-package models --api-package api --additional-properties=npmVersion=$VERSION,npmName=exampleClient,nullSafeAdditionalProps=true,withSeparateModelsAndApi=true,useSingleRequestParameter=true
           cd typescript-client
           aws codeartifact login --tool npm --domain octopuswealth --repository client
-          npm version prerelease --preid dev.$(date +"%Y%m%d%H%M%S") 
+          npm version prerelease --preid dev.$( echo ${{ github.sha }} | cut -c 1-8 )
           json -I -f package.json -e "this.files=[\"/dist/**\"]"
           npm install --registry https://registry.npmjs.org
           npm run build
